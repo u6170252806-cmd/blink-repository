@@ -1,0 +1,49 @@
+{
+    "name": "curl",
+    "version": "8.16.0",
+    "release": 1,
+    "description": "Command-line tool for transferring data using URLs",
+    "author": "Daniel Stenberg <daniel@haxx.se>",
+    "license": "MIT",
+    "source": {
+        "url": "https://curl.se/download/curl-8.16.0.tar.xz",
+        "sha256": "40c8cddbcb6cc6251c03dea423a472a6cea4037be654ba5cf5dec6eb2d22ff1d",
+        "type": "tar.xz"
+    },
+    "dependencies": {
+        "bash": ">=3.2",
+        "gcc": "*",
+        "make": "*",
+        "pkg-config": "*",
+        "openssl": ">=1.1"
+    },
+    "opt_dependencies": [
+        {
+            "id": 1,
+            "description": "Optional protocol support",
+            "options": [
+                "zlib",
+                "brotli",
+                "nghttp2",
+                "libssh2",
+                "libidn2"
+            ],
+            "default": "zlib"
+        }
+    ],
+    "build": {
+        "env": {},
+        "prepare": [
+            "./configure --prefix=${PREFIX:-/usr/local} --with-ssl"
+        ],
+        "install": [
+            "make -j$(nproc)",
+            "make install"
+        ],
+        "uninstall": [
+            "rm -f ${PREFIX:-/usr/local}/bin/curl",
+            "rm -rf ${PREFIX:-/usr/local}/share/curl",
+            "rm -f ${PREFIX:-/usr/local}/share/man/man1/curl.1"
+        ]
+    }
+}
